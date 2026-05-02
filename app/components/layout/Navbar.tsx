@@ -2,9 +2,9 @@
 import { useCartStore } from '@/app/store/cartStore'
 import { ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CartDrawer from '../ui/CartDrawer'
-import { getCategories, getProductsByCategory } from '@/app/lib/api/products'
+import { getCategories} from '@/app/lib/api/products'
 import { Category } from '@/sanity/types'
 import { useRouter } from 'next/navigation'
 

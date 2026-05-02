@@ -11,7 +11,7 @@ import { Trash2 } from 'lucide-react';
 import EmptyCart from './EmptyCart';
 import { useState } from 'react';
 import { ConfirmDialog } from './ConfirmDialog';
-import { set } from 'sanity/migrate';
+
 
 interface CartDrawerProps {
   isOpen: boolean
