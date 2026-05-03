@@ -12,7 +12,7 @@ const HeroSection = ({ isSearchPage }: { isSearchPage?: boolean }) => {
       <div className={`relative w-full ${isSearchPage ? 'md:h-100 h-80' : 'md:h-130 h-80'}  top-0`}>
           <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/40 to-transparent z-30"></div>
       <Image
-      src="/hero.png"
+      src="/hero.PNG"
       alt="Perfume"
               fill
               sizes='100%'
