@@ -38,7 +38,7 @@ export const ConfirmDialog = ({
       />
 
       {/* Modal */}
-      <div className='relative mx-auto bg-white z-50 rounded-lg p-6 shadow-lg w-[40%]  text-center'>
+      <div className='relative mx-auto bg-white z-50 rounded-lg p-6 shadow-lg sm:w-[40%]  w-[85%] text-center'>
         <p className='text-md '>{promptMessage}</p>
         {/* <p className='text-sm text-gray-500 mt-1'>
           This action cannot be undone

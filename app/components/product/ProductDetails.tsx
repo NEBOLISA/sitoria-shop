@@ -67,7 +67,7 @@ const ProductDetails = ({
           className='fixed inset-0 bg-white z-50 top-8  sm:top-24 rounded-t-4xl sm:p-8 '
         >
           <CircleX
-            className='absolute w-9 h-9 cursor-pointer text-green-500 top-1 right-4  font-medium'
+            className='absolute z-40 w-9 h-9 cursor-pointer text-green-500 top-1 right-4  font-medium'
             onClick={onClose}
           />
           {!product && (
