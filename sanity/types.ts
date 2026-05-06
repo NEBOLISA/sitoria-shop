@@ -289,6 +289,100 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 // Source: sanity/lib/queries.ts
+// Variable: getProductBySearchQuery
+// Query: *[_type == "product" && name match $search] | order(_createdAt desc)
+export type GetProductBySearchQueryResult = Array<{
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  price?: number;
+  discountPercentage?: number;
+  isOnSale?: boolean;
+  stock?: number;
+  tags?: Array<"Best Seller" | "Coming Soon" | "New Arrival" | "Preorder">;
+  variants?: Array<{
+    size?: string;
+    price?: number;
+    stock?: number;
+    _key: string;
+  }>;
+  brand?: BrandReference;
+  mainImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  categories?: Array<
+    {
+      _key: string;
+    } & CategoryReference
+  >;
+  publishedAt?: string;
+  body?: BlockContent;
+}>;
+
+// Source: sanity/lib/queries.ts
+// Variable: getProductsByCategoryQuery
+// Query: *[_type == "product" && $category in categories[]->slug.current] | order(_createdAt desc)
+export type GetProductsByCategoryQueryResult = Array<{
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  price?: number;
+  discountPercentage?: number;
+  isOnSale?: boolean;
+  stock?: number;
+  tags?: Array<"Best Seller" | "Coming Soon" | "New Arrival" | "Preorder">;
+  variants?: Array<{
+    size?: string;
+    price?: number;
+    stock?: number;
+    _key: string;
+  }>;
+  brand?: BrandReference;
+  mainImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  categories?: Array<
+    {
+      _key: string;
+    } & CategoryReference
+  >;
+  publishedAt?: string;
+  body?: BlockContent;
+}>;
+
+// Source: sanity/lib/queries.ts
+// Variable: getCategoryQuery
+// Query: *[_type == "category"]
+export type GetCategoryQueryResult = Array<{
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+}>;
+
+// Source: sanity/lib/queries.ts
 // Variable: getProductsByPageQuery
 // Query: *[_type == "product"]   | order(_createdAt desc)[$start...$end]
 export type GetProductsByPageQueryResult = Array<{
@@ -327,6 +421,46 @@ export type GetProductsByPageQueryResult = Array<{
   publishedAt?: string;
   body?: BlockContent;
 }>;
+
+// Source: sanity/lib/queries.ts
+// Variable: getProductByIdQuery
+// Query: *[_type == "product" && _id == $id][0]
+export type GetProductByIdQueryResult = {
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  price?: number;
+  discountPercentage?: number;
+  isOnSale?: boolean;
+  stock?: number;
+  tags?: Array<"Best Seller" | "Coming Soon" | "New Arrival" | "Preorder">;
+  variants?: Array<{
+    size?: string;
+    price?: number;
+    stock?: number;
+    _key: string;
+  }>;
+  brand?: BrandReference;
+  mainImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  categories?: Array<
+    {
+      _key: string;
+    } & CategoryReference
+  >;
+  publishedAt?: string;
+  body?: BlockContent;
+} | null;
 
 // Source: sanity/lib/queries.ts
 // Variable: bestSellersQuery
@@ -369,6 +503,44 @@ export type BestSellersQueryResult = Array<{
 }>;
 
 // Source: sanity/lib/queries.ts
+// Variable: getBrandsQuery
+// Query: *[_type == "brand"]
+export type GetBrandsQueryResult = Array<{
+  _id: string;
+  _type: "brand";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  logo?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+}>;
+
+// Source: sanity/lib/queries.ts
 // Variable: getProductsWithCountQuery
 // Query: {  "products": *[_type == "product"] | order(_createdAt desc)[$start...$end]{    _id,    name,    price,    image  },  "total": count(*[_type == "product"])}
 export type GetProductsWithCountQueryResult = {
@@ -390,8 +562,13 @@ export type GetTotalResult = number;
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    '\n *[_type == "product" && name match $search] | order(_createdAt desc)': GetProductBySearchQueryResult;
+    '\n  *[_type == "product" && $category in categories[]->slug.current] | order(_createdAt desc) \n': GetProductsByCategoryQueryResult;
+    '\n  *[_type == "category"]\n': GetCategoryQueryResult;
     '\n  *[_type == "product"] \n  | order(_createdAt desc)[$start...$end]\n': GetProductsByPageQueryResult;
+    '\n  *[_type == "product" && _id == $id][0]\n': GetProductByIdQueryResult;
     '\n  *[_type == "product" && "Best Seller" in tags]\n': BestSellersQueryResult;
+    '\n*[_type == "brand"]\n': GetBrandsQueryResult;
     '{\n\n  "products": *[_type == "product"] | order(_createdAt desc)[$start...$end]{\n    _id,\n    name,\n    price,\n    image\n  },\n  "total": count(*[_type == "product"])\n}\n\n\n': GetProductsWithCountQueryResult;
     '\ncount(*[_type == "product"])\n': GetTotalResult;
   }

@@ -10,7 +10,7 @@ const ProductCard = ({ product, onclick }: { product: Product; onclick: () => vo
    const stockStatus = getStockStatus(product.stock || 0);
  
   return (
-    <div className=" md:h-70 h-60   md:px-0 cursor-pointer  bg-white md:mx-0    shadow-lg rounded-lg overflow-hidden group md:w-[30%] w-[48%] border border-gray-300  relative flex flex-col items-center justify-center group " onClick={onclick}>
+    <div className=" md:h-70 h-60   md:px-0 cursor-pointer  bg-white md:mx-0    shadow-lg rounded-lg overflow-hidden group w-full border border-gray-300  relative flex flex-col items-center justify-center group " onClick={onclick}>
           {/* Best Seller Tag */}
           
       {/* Product Image */}

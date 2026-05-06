@@ -6,7 +6,7 @@ export const useCartStore = create(
     (set, get) => ({
       cart: [],
       scrollToBestSellers: () => {
-        const el = document.getElementById('best-sellers')
+        const el = document.getElementById('all-products')
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' })
         }

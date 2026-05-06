@@ -43,7 +43,7 @@ const Navbar = () => {
         }`}
       >
         <Link
-          className='font-bold sm:text-2xl text-lg cursor-pointer text-white'
+          className='font-bold sm:text-2xl text-3xl cursor-pointer text-white'
           href='/'
         >
           PerfShop

@@ -59,7 +59,7 @@ export default function CartDrawer({ isOpen, onClose, cart }: CartDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className='fixed top-1/2 -translate-y-1/2 sm:right-2 sm:left-auto sm:translate-x-0 left-1/2 -translate-x-1/2 sm:h-[90vh] sm:w-87.5 h-[80vh] w-[90%] bg-white z-40 shadow-xl flex flex-col rounded-lg overflow-hidden'
+            className='fixed top-1/2 -translate-y-1/2 sm:right-4 sm:left-auto sm:translate-x-0 left-1/2 -translate-x-1/2 sm:h-[90vh] sm:w-[55%] md:w-[40%] h-[80vh] w-[90%] bg-white z-40 shadow-xl flex flex-col rounded-lg overflow-hidden'
           >
             {/* Header */}
             <div className='flex justify-between items-center p-4 border-b border-gray-200 text-black'>
