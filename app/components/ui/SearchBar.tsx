@@ -1,13 +1,13 @@
 'use client'
 
 import { Search } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 export default function SearchBar() {
   const router = useRouter()
   const [query, setQuery] = useState('')
-
+const searchParams = useSearchParams()
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
      
@@ -15,8 +15,13 @@ export default function SearchBar() {
          router.push('/')
           return
       }
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.set('search', query)
+
+    //router.push(`/?${params.toString()}`)
+    router.push(`/?${params?.toString()}`)
     
-    router.push(`/?search=${encodeURIComponent(query)}`)
   }
 
   return (

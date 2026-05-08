@@ -14,11 +14,7 @@ const Pagination = ({ pageNumbers }: PaginationProps) => {
     const router = useRouter();
 
     const currentPage = Number(searchParams.get("page")) || 1;
-    //  if (currentPage === 1) {
-    //    router.replace('/',{scroll:false});
-    // }
-    //const pageNumber = Array.from({ length: 8 }, (_, i) => i + 1)
-    // const [selectedPage, setSelectedPage] = useState(currentPage);
+    
     const DOTS = "..."
     const firstPage = 1
     const lastPage = pageNumbers.length

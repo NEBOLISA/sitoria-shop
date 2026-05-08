@@ -66,21 +66,21 @@ export const getTotal = groq`
 count(*[_type == "product"])
 `
 
-// export const getProductsByFilterQuery1 = groq`
-// *[
-//   _type == "product" &&
+export const getProductsByFilterQuery1 = groq`
+*[
+  _type == "product" &&
 
-//   // Search
-//   (!defined($searchTerm) || name match $searchTerm) &&
+  // Search
+  (!defined($searchTerm) || name match $searchTerm) &&
 
-//   // Category
-//   (!defined($categoryTerm) || $categoryTerm in categories[]->slug.current) &&
+  // Category
+  (!defined($categoryTerm) || $categoryTerm in categories[]->slug.current) &&
 
-//   // Filters
-//   (!defined($sizes) || size in $sizes) && 
-//   (!defined($brands) || brand->name in $brands) && 
-//   (!defined($minPrice) || price >= $minPrice) && 
-//   (!defined($maxPrice) || price <= $maxPrice)
+  // Filters
+  (!defined($sizes) || size in $sizes) && 
+  (!defined($brands) || brand->name in $brands) && 
+  (!defined($minPrice) || price >= $minPrice) && 
+  (!defined($maxPrice) || price <= $maxPrice)
 
-// ] | order(price asc)
-// `
+] | order(price asc)
+`

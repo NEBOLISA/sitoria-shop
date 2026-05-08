@@ -2,11 +2,12 @@
 import React, { useEffect } from 'react'
 import { Roboto_Flex } from "next/font/google";
 import Image from 'next/image';
+import { useCartStore } from '@/app/store/cartStore';
 const sanchez = Roboto_Flex({ subsets: ["latin"], weight: "500" });
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = React.useState(1);
   const SLIDE_LENGTH = 2;
-  
+  const scrollToBestSellers = useCartStore((state) => state.scrollToBestSellers)
   const nextSlide = () => {
     setCurrentSlide((prev) => currentSlide > SLIDE_LENGTH - 1 ? currentSlide : prev + 1)
   
@@ -134,7 +135,7 @@ const Slider = () => {
               Experience rich notes, refined blends, and a signature aura that
               speaks before you do.
             </h3>
-            <button className='sm:mt-6 mt-3 mx-2 sm:mx-8 sm:px-6 sm:py-1 px-2  cursor-pointer sm:text-sm text-xs font-medium rounded-full sm:border-2 border-1 border-white text-white hover:bg-white hover:text-black transition-colors duration-300'>
+            <button onClick={()=>scrollToBestSellers()} className='sm:mt-6 mt-3 mx-2 sm:mx-8 sm:px-6 sm:py-1 px-2  cursor-pointer sm:text-sm text-xs font-medium rounded-full sm:border-2 border border-white text-white hover:bg-white hover:text-black transition-colors duration-300'>
               Shop Now
             </button>
           </div>

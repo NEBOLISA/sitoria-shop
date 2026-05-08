@@ -1,14 +1,15 @@
 'use client'
 import { Poppins } from 'next/font/google'
 import ProductCard from './ProductCard'
-import { Brand, Product } from '@/sanity/types'
+import {Product } from '@/sanity/types'
 import { useEffect, useState } from 'react'
 import ProductDetails from './ProductDetails'
 import { getProductById } from '@/app/lib/api/products'
 import { House } from 'lucide-react'
-import { ChevronRight,ListFilter } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import FilterDropdown from '../ui/FilterDropdown'
+import { useSearchParams } from 'next/navigation'
+
 const poppins = Poppins({ subsets: ['latin'], weight: '500' })
 
 interface ProductGridProps {
@@ -16,16 +17,16 @@ interface ProductGridProps {
   products: Product[]
   currentPage?: string
   isSearchPage?: boolean,
-  maxmin?: { maxPrice: number, minPrice: number }
-  brands?:Brand[] 
+  filters?:string[]
+ 
 }
-const ProductGrid = ({ heading, products,currentPage, isSearchPage,maxmin,brands}: ProductGridProps) => {
+const ProductGrid = ({ heading, products,currentPage, isSearchPage,filters}: ProductGridProps) => {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   )
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
- 
- 
+
+  // const filters = entries.filter(item => item != "")
   useEffect(() => {
     if (selectedProductId) {
       getProductById(selectedProductId).then((product) => {
@@ -52,10 +53,17 @@ const ProductGrid = ({ heading, products,currentPage, isSearchPage,maxmin,brands
           <h2
             className={
               poppins.className +
-              ` sm:text-lg text-xs md:text-xl truncate w-50 md:w-full capitalize text-text mt-6 mb-2 `
+              ` sm:text-md text-xs md:text-lg truncate w-50 md:w-full capitalize  mt-6 mb-2 `
             }
           >
             {heading}
+            {filters?.map((item, id) => (
+              <div className=' inline-flex ' key={id}>
+                <p className='flex border-gray-200 border px-2 py-0.5 ml-2 '>
+                  {item}
+                </p>
+              </div>
+            ))}
           </h2>
         </div>
 

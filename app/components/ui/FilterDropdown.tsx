@@ -55,21 +55,7 @@ export default function FilterDropdown({
   //   })
   const { selectedFilters, setSizes, setBrands, setPrices } = useFilterStore()
   const prices = useFilterStore((state) => state.selectedFilters.prices)
-  // useEffect(() => {
-  //     const params = new URLSearchParams(searchParams)
-  //     const sizes = selectedFilters.sizes
-  //     const prices = selectedFilters.prices
-  //     const brands = selectedFilters.brands
-  //     if (sizes.length === 0 && prices.length === 0 && brands.length === 0) {
-  //         router.push(`/`)
-  //         return
-  //     }
-  //     params.set('size', sizes.join(','))
-  //     params.set('brand', brands.join(','))
-  //     params.set('price', prices.join('-'))
-  //     router.push(`/?${params.toString()}`)
-
-  // },[selectedFilters])
+  
 
   const handleSelectedSize = (value: boolean | string, size: string) => {
     const newSize = value

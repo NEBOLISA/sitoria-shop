@@ -8,22 +8,23 @@ interface ComponentProps {
   maxmin?: { maxPrice: number; minPrice: number }
   heading?: string
   products?: Product[]
-  currentPage?:string
+  currentPage?: string
+  filters?:string[]
 }
 const ProductsDispayComponent = ({
   isSearchPage,
-  allbrands,
-  maxmin,
+ 
   heading,
   products,
-  currentPage
+  currentPage,
+  filters
 }: ComponentProps) => {
+  console.log({filters})
   return (
     <div className=''>
-      <HeroSection isSearchPage={isSearchPage} />
+      {/* <HeroSection isSearchPage={isSearchPage} /> */}
       <ProductGrid
-        brands={allbrands}
-        maxmin={maxmin}
+        filters={filters}
         isSearchPage={isSearchPage}
          currentPage={currentPage}
         heading={heading}

@@ -6,19 +6,20 @@ import { useEffect, useState } from 'react'
 import CartDrawer from '../ui/CartDrawer'
 import { getCategories} from '@/app/lib/api/products'
 import { Category } from '@/sanity/types'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import CategoryDropdown from '../ui/CategoryDropdown'
 
 const Navbar = () => {
    const router = useRouter()
-  const { cart} = useCartStore()
+  const { cart } = useCartStore()
+  const searchParams = useSearchParams()
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const quantity = useCartStore((state) => state.cart.length);
   useEffect(() => {
     getCategories().then((data: Category[]) => {
-      console.log({data})
+   
       setCategories(data)
    
     })
@@ -33,8 +34,13 @@ const Navbar = () => {
   
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-  const handleCategorySelect = (category:string) => {
-    router.push(`/${category}`)
+  const handleCategorySelect = (category: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.set('category', category)
+
+    router.push(`/?${params.toString()}`)
+    // router.push(`/?category=${category}`)
   }
     return (
       <nav

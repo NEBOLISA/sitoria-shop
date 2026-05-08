@@ -1,27 +1,29 @@
-import HeroSection from './components/product/HeroSection'
 
+import { Suspense } from 'react'
+import HeroSection from './components/product/HeroSection'
 import PaginationWrapper, {
   LIMIT
 } from './components/product/PaginationWrapper'
 
 import ProductGrid from './components/product/ProductGrid'
 import ProductsDispayComponent from './components/product/ProductsDisplayComponent'
+import ProductSkeleton from './components/product/ProductSkeleton'
 import FilterDropdown from './components/ui/FilterDropdown'
 import Slider from './components/ui/Slider'
 import {
   getBestSellers,
   getBrands,
   getMaxandMinPrices,
-  getProducts,
-  getProductsByCategory,
-  getProductsByFilter,
-  getProductsBySearch,
+  getProductsByFilter1,
   getProductsPerPage
 } from './lib/api/products'
+import { generateText } from './lib/utils/generateHeadingText'
+import ProductsWrapper from './components/product/ProductDisplayWrapper'
+
 
 export default async function Home({
   searchParams,
-  category
+
 }: {
   searchParams?: Promise<{
     page?: string
@@ -29,14 +31,18 @@ export default async function Home({
     brand?: string
     price?: string
     size?: string
+    category?: string
   }>
-  category?: string
 }) {
   const params = await searchParams
 
-  const searchTerm = params?.search || ''
+  const all = await searchParams
+  
+ 
+  const searchTerm = params?.search ?? null
+  
   const page = Number(params?.page) || 1
-
+  const category = params?.category ?? null
   const rsizes = params?.size?.split(',').filter(Boolean)
   const sizes = rsizes?.length ? rsizes : null
 
@@ -46,28 +52,47 @@ export default async function Home({
   const price = params?.price?.split('-').map(Number)
   const minPrice = price?.[0] ?? null
   const maxPrice = price?.[1] ?? null
+  const filters = [...(sizes ?? []), ...(brands ?? []), price?.join("-")].filter(Boolean) as string[]
 
 
-  const maxmin = await getMaxandMinPrices()
-  const allbrands = await getBrands()
-  const filteredProducts = await getProductsByFilter({
-    sizes,
-    brands,
-    minPrice,
-    maxPrice
-  })
-  console.log(params?.brand)
-  const products = await getProductsPerPage(page, LIMIT)
-  const bestSellers = await getBestSellers()
-  const searchResults = await getProductsBySearch(searchTerm)
-  const categoryProducts = category ? await getProductsByCategory(category) : []
+  const [maxmin, allbrands] = await Promise.all([
+    getMaxandMinPrices(),
+    getBrands(),
+  ])
+  let products = []
+  let bestSellers = []
+  // let filteredProducts = []
 
-  const isFilterPage = params?.brand || params?.price || params?.size
+ const isFilterPage = params?.brand || params?.price || params?.size
   const isMainPage = !isFilterPage && !searchTerm && !category
   const isCategoryPage = !!category
   const isSearchPage = !!searchTerm
+
+//   if (isCategoryPage || isSearchPage || isFilterPage) {
+    
+//   filteredProducts = await getProductsByFilter1({
+//     searchTerm,
+//     categoryTerm: category ?? null,
+//     sizes,
+//     brands,
+//     minPrice,
+//     maxPrice
+//   })
+// } else {
+  products = await getProductsPerPage(page, LIMIT)
+  bestSellers = await getBestSellers()
+  // }
+    const { text, heading } = generateText({
+      category: category ?? '',
+      search: searchTerm ?? '',
+      filters: [all?.brand ?? '', all?.price ?? '', all?.size ?? '']
+    }) ?? { text: '', heading: '' }
+ 
+
+ 
   return (
     <div className='relative'>
+      <HeroSection isSearchPage={!isMainPage} />
       <FilterDropdown
         maxmin={maxmin!}
         brands={allbrands!}
@@ -76,56 +101,46 @@ export default async function Home({
       {isMainPage && (
         <>
           <ProductsDispayComponent
-            // allbrands={allbrands}
+            filters={filters}
             heading={'Best Sellers'}
             products={bestSellers}
           />
           <section id='all-products'>
             <Slider />
-            <ProductGrid products={products} />
+            <ProductGrid products={products} heading='all products' />
             <PaginationWrapper />
           </section>
         </>
       )}
-      {isSearchPage && (
-        <>
-          <HeroSection isSearchPage={true} />
-          <ProductGrid
-            isSearchPage={true}
-            // brands={allbrands}
-            // maxmin={maxmin}
-            currentPage={`search for "${searchTerm}"`}
-            heading={`Search Results for "${searchTerm}"`}
-            products={searchResults}
+
+      {(isSearchPage || isCategoryPage || isFilterPage) && (
+        <Suspense
+          key={JSON.stringify(searchParams)}
+          fallback={<ProductSkeleton />}
+        >
+          <ProductsWrapper
+            searchTerm={searchTerm}
+            category={category}
+            sizes={sizes}
+            brands={brands}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            heading={heading}
+            text={text}
+            filters={filters}
           />
-        </>
-      )}
-      {isCategoryPage && (
-        <>
-          <HeroSection isSearchPage={true} />
-          <ProductGrid
-            // brands={allbrands}
-            // maxmin={maxmin}
-            isSearchPage={true}
-            currentPage={`${category} category`}
-            heading={`${category} Category`}
-            products={categoryProducts}
-          />
-        </>
-      )}
-      {isFilterPage && (
-        <>
-          <HeroSection isSearchPage={true} />
-          <ProductGrid
-            brands={allbrands}
-            isSearchPage={true}
-            maxmin={maxmin}
-            currentPage={`filter page`}
-            heading={`Filter Results for "${''}"`}
-            products={filteredProducts}
-          />
-        </>
+
+          {/* <ProductsDispayComponent
+        filters={filters}
+        isSearchPage={true}
+        currentPage={heading}
+        heading={text}
+        products={filteredProducts}
+      /> */}
+        </Suspense>
       )}
     </div>
   )
 }
+
+
