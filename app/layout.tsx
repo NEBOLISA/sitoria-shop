@@ -33,10 +33,12 @@ export default function RootLayout({
       <body className='min-h-full flex flex-col'>
         <Toaster />
          <Suspense
-                  key={JSON.stringify("searchParams")}
+                  
                   fallback={<ProductSkeleton />}
-                ></Suspense>
+        >
+          
         <Navbar />
+                </Suspense>
         {children}
       </body>
     </html>
