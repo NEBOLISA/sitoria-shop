@@ -1,6 +1,8 @@
 
+import { Suspense } from 'react'
 import Pagination from './Pagination'
 import { getTotalCount } from '@/app/lib/api/products'
+import ProductSkeleton from './ProductSkeleton'
 export const LIMIT = 3
 const PaginationWrapper = async () => {
     
@@ -11,7 +13,13 @@ const PaginationWrapper = async () => {
  
     const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1)
   return (
-    <Pagination pageNumbers={pageNumbers}  />
+     <Suspense
+              key={JSON.stringify("pagination")}
+              fallback={<ProductSkeleton />}
+            >
+      
+              <Pagination pageNumbers={pageNumbers}  />
+            </Suspense>
   )
 }
 

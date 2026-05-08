@@ -93,11 +93,17 @@ export default async function Home({
   return (
     <div className='relative'>
       <HeroSection isSearchPage={!isMainPage} />
+       <Suspense
+          key={JSON.stringify(searchParams)}
+          fallback={<ProductSkeleton />}
+      >
+        
       <FilterDropdown
         maxmin={maxmin!}
         brands={allbrands!}
         isNotMainPage={!isMainPage}
       />
+        </Suspense>
       {isMainPage && (
         <>
           <ProductsDispayComponent

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import {
   Popover,
   PopoverContent,
@@ -30,7 +30,7 @@ export default function FilterDropdown({
   const router = useRouter()
   const searchParams = useSearchParams()
   const params = new URLSearchParams(searchParams)
-  //const [price, setPrice] = useState([maxmin?.minPrice, maxmin?.maxPrice])
+  
   const minimumPrice = maxmin?.minPrice
   const maximumPrice = maxmin?.maxPrice
   const [view, setView] = useState({ key: 'main', param: 'main' })
@@ -42,17 +42,7 @@ export default function FilterDropdown({
   ]
   const sizes = ['S', 'M', 'L', 'XL']
 
-  // const brands = ['Nike', 'Adidas', 'Puma']
-  interface SelectedFilterProps {
-    brands: string[]
-    prices: number[]
-    sizes: string[]
-  }
-  //   const [selectedFilters, setSelectedFilters] = useState<SelectedFilterProps>({
-  //         brands: [] ,
-  //         prices: [],
-  //         sizes: []
-  //   })
+  
   const { selectedFilters, setSizes, setBrands, setPrices } = useFilterStore()
   const prices = useFilterStore((state) => state.selectedFilters.prices)
   
@@ -90,21 +80,8 @@ export default function FilterDropdown({
     }
     router.push(`/?${params.toString()}`)
   }
-  // const handleClearFilter = (view:ViewProp) => {
-  //     if (view.param === 'prices') {
-  //         setPrice([Number(minimumPrice), Number(maximumPrice)])
-  //         setSelectedFilters((prev) => ({
-  //           ...prev,
-  //           prices: []
-  //         }))
-  //         return
-  //     }
-  //        setSelectedFilters((prev) => ({
-  //          ...prev,
-  //          [view.param]:[]
-  //        }))
+  
 
-  // }
   const handleClearFilter = (type: ViewProp) => {
     //   const params = getParams()
 

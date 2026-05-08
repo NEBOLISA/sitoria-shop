@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { Playfair_Display } from "next/font/google";
 
 import SearchBar from '../ui/SearchBar';
+import { Suspense } from 'react';
+import ProductSkeleton from './ProductSkeleton';
 
 const playfair = Playfair_Display({ subsets: ["latin"],weight: "900" });
 
@@ -20,8 +22,14 @@ const HeroSection = ({ isSearchPage }: { isSearchPage?: boolean }) => {
       />
          
           <div className='absolute text-center md:w-full w-[85%] h-max z-30 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 '>
-              <p className={playfair.className + ' text-white md:text-6xl text-4xl  font-black w-full '} >Elegance in Every Drop</p>
+        <p className={playfair.className + ' text-white md:text-6xl text-4xl  font-black w-full '} >Elegance in Every Drop</p>
+         <Suspense
+          key={JSON.stringify("searchbar")}
+          fallback={<ProductSkeleton />}
+        >
+
             <SearchBar/>
+        </Suspense>
           </div>
          
     </div>

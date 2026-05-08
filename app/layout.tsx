@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import { Toaster } from 'react-hot-toast'
+import { Suspense } from "react";
+import ProductSkeleton from "./components/product/ProductSkeleton";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,6 +32,10 @@ export default function RootLayout({
     >
       <body className='min-h-full flex flex-col'>
         <Toaster />
+         <Suspense
+                  key={JSON.stringify("searchParams")}
+                  fallback={<ProductSkeleton />}
+                ></Suspense>
         <Navbar />
         {children}
       </body>

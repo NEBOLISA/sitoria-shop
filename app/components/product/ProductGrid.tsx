@@ -8,7 +8,7 @@ import { getProductById } from '@/app/lib/api/products'
 import { House } from 'lucide-react'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+
 
 const poppins = Poppins({ subsets: ['latin'], weight: '500' })
 
