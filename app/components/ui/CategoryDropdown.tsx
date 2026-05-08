@@ -5,7 +5,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+
 } from '@/components/ui/select'
 import { Category } from '@/sanity/types'
 
@@ -23,10 +23,7 @@ export default function CategoryDropdown({ categories, onSelect }: {
           }}
         >
           <SelectTrigger className='w-27 rounded-2xl'>
-            {/* <SelectValue
-              className=''
-              placeholder='Categories'
-            /> */}
+           
             <span className='text-white overflow-hidden inline '>Category</span>
           </SelectTrigger>
 

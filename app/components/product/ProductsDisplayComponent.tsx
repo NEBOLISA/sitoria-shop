@@ -1,6 +1,5 @@
 import { Brand, Product } from '@/sanity/types'
-import React from 'react'
-import HeroSection from './HeroSection'
+
 import ProductGrid from './ProductGrid'
 interface ComponentProps {
   isSearchPage?: boolean

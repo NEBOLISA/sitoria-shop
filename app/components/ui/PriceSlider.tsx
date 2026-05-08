@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+
 import { Slider } from '@/components/ui/slider'
 interface SliderProps{
     price: number[],
@@ -38,10 +38,7 @@ export default function PriceSlider({price,MIN,MAX,handlePrice}:SliderProps) {
         }}
       />
 
-      {/* <div className='flex justify-between text-sm'>
-        <span>₦{price[0]}</span>
-        <span>₦{price[1]}</span>
-      </div> */}
+     
     </div>
   )
 }
