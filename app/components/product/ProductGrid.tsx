@@ -8,6 +8,7 @@ import { getProductById } from '@/app/lib/api/products'
 import { House } from 'lucide-react'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 
 const poppins = Poppins({ subsets: ['latin'], weight: '500' })
@@ -21,16 +22,19 @@ interface ProductGridProps {
  
 }
 const ProductGrid = ({ heading, products,currentPage, isSearchPage,filters}: ProductGridProps) => {
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
-  )
+  const [loadingDetails, setLoadingDetails] = useState<string | null>(null)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
+  const selectedProductId = searchParams.get('product')
   // const filters = entries.filter(item => item != "")
   useEffect(() => {
     if (selectedProductId) {
       getProductById(selectedProductId).then((product) => {
+      
         setSelectedProduct(product)
+        setLoadingDetails(null)
       })
     }
   }, [selectedProductId])
@@ -79,16 +83,23 @@ const ProductGrid = ({ heading, products,currentPage, isSearchPage,filters}: Pro
               <ProductCard
                 key={product._id}
                 product={product}
-                onclick={() => setSelectedProductId(product._id)}
+                loadingDetails={loadingDetails}
+                onclick={() => {
+                    setLoadingDetails(product?._id)
+                  router.push(`/?product=${product._id}`)
+                }}
               />
             ))}
           </div>
         )}
+       
         {selectedProductId && (
           <ProductDetails
             product={selectedProduct}
             onClose={() => {
-              setSelectedProductId(null)
+              router.back()
+
+              // setSelectedProductId(null)
               setSelectedProduct(null)
             }}
           />

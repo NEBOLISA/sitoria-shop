@@ -16,7 +16,7 @@ export function generateText({ category, search, filters }: { category?: string,
     }
     else if (category && isFilter) {
       return {
-        text: (text += `${category} category`),
+        text: (text += `${category} category /`),
         heading: `Filter / category page`
       }
     } else if (category && search) {

@@ -1,3 +1,4 @@
+"use client"
 import { Brand, Product } from '@/sanity/types'
 
 import ProductGrid from './ProductGrid'
@@ -18,7 +19,7 @@ const ProductsDispayComponent = ({
   currentPage,
   filters
 }: ComponentProps) => {
-  console.log({filters})
+ 
   return (
     <div className=''>
       {/* <HeroSection isSearchPage={isSearchPage} /> */}

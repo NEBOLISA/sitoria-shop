@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
+import { createPortal } from 'react-dom'
 interface ConfirmDialogProps {
   promptMessage: string
   confirmText: string
@@ -14,7 +15,7 @@ export const ConfirmDialog = ({
   action,
   onClose
 }: ConfirmDialogProps) => {
-    return (
+    return createPortal(
         <AnimatePresence>
 
              <motion.div
@@ -66,6 +67,6 @@ export const ConfirmDialog = ({
         </div>
       </div>
     </motion.div>
-        </AnimatePresence>
+        </AnimatePresence>,document.body
   )
 }

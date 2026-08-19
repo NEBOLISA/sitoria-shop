@@ -3,18 +3,19 @@
 import { urlFor } from '@/sanity/lib/image'
 import { Product } from '@/sanity/types'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Playfair_Display } from "next/font/google";
-import {  X } from 'lucide-react'
+import { IoMdArrowRoundForward } from 'react-icons/io'
+
+
 import Image from 'next/image'
 import { useCartStore } from '@/app/store/cartStore';
 import { Trash2 } from 'lucide-react';
 import EmptyCart from './EmptyCart';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ConfirmDialog } from './ConfirmDialog';
 
 
 interface CartDrawerProps {
-  isOpen: boolean
+  setView: (view: number) => void
   onClose: () => void
   cart: CartItem[]
 }
@@ -22,8 +23,8 @@ interface CartItem extends Product {
   quantity: number
   calculatedPrice: number
 }
-const playfair = Playfair_Display({ subsets: ['latin'], weight: '900' })
-export default function CartDrawer({ isOpen, onClose, cart }: CartDrawerProps) {
+
+export default function CartDrawer({ onClose, cart,setView }: CartDrawerProps) {
   
   const { removeFromCart, clearCart, increaseQty, decreaseQty } = useCartStore()
   const [isClearCartDialogOpen, setIsClearCartDialogOpen] = useState(false)
@@ -41,138 +42,116 @@ export default function CartDrawer({ isOpen, onClose, cart }: CartDrawerProps) {
       }
     }
   return (
-    <AnimatePresence>
-      {isOpen && (
+    <>
+      {/* 🔲 Backdrop */}
+
+      {/* 🛒 Cart Panel */}
+
+      {/* Header */}
+
+      {/* Cart Items */}
+      {cart.length !== 0 ? (
         <>
-          {/* 🔲 Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className='fixed inset-0 bg-black z-30'
-          />
-
-          {/* 🛒 Cart Panel */}
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
-            className='fixed top-1/2 -translate-y-1/2 sm:right-4 sm:left-auto sm:translate-x-0 left-1/2 -translate-x-1/2 sm:h-[90vh] sm:w-[55%] md:w-[40%] h-[80vh] w-[90%] bg-white z-40 shadow-xl flex flex-col rounded-lg overflow-hidden'
-          >
-            {/* Header */}
-            <div className='flex justify-between items-center p-4 border-b border-gray-200 text-black'>
-              <h2 className={playfair.className + 'text-lg font-semibold'}>
-                My Cart
-              </h2>
-              <div
-                onClick={onClose}
-                className='flex items-center cursor-pointer justify-center rounded-full border p-1 border-gray-400'
-              >
-                <X
-                  fontSize={8}
-                  className=' w-5 h-5 cursor-pointer  text-gray-500  font-extralight'
+          <div className='flex-1 overflow-y-auto p-4 space-y-6'>
+            {cart.map((item, index) => (
+              <div key={item._id + index} className='flex gap-4'>
+                {/* Image */}
+                <Image
+                  width={20}
+                  height={20}
+                  src={urlFor(item.mainImage?.asset?._ref || '').url()}
+                  alt={item.name || 'Product Image'}
+                  className='w-20 h-20 object-cover rounded-md'
                 />
-              </div>
-            </div>
 
-            {/* Cart Items */}
-            {cart.length !== 0 ? (
-              <>
-                <div className='flex-1 overflow-y-auto p-4 space-y-6'>
-                  {cart.map((item,index) => (
-                    <div key={item._id + index} className='flex gap-4'>
-                      {/* Image */}
-                      <Image
-                        width={20}
-                        height={20}
-                        src={urlFor(item.mainImage?.asset?._ref || '').url()}
-                        alt={item.name || 'Product Image'}
-                        className='w-20 h-20 object-cover rounded-md'
-                      />
+                {/* Details */}
+                <div className='flex-1'>
+                  <h3 className='font-medium text-black'>{item.name}</h3>
+                  <p className='text-gray-500 text-sm'>
+                    ₦{item?.calculatedPrice?.toLocaleString()}
+                  </p>
 
-                      {/* Details */}
-                      <div className='flex-1'>
-                        <h3 className='font-medium text-black'>{item.name}</h3>
-                        <p className='text-gray-500 text-sm'>
-                          ₦{item?.calculatedPrice?.toLocaleString()}
-                        </p>
+                  {/* Quantity Controls */}
+                  <div className='flex items-center gap-3 mt-2'>
+                    <button
+                      disabled={item.quantity <= 1}
+                      onClick={() => handleDecreaseQty(item)}
+                      className={`${
+                        item?.quantity <= 1
+                          ? 'bg-green-200 cursor-not-allowed'
+                          : 'bg-green-500 hover:bg-green-400 cursor-pointer'
+                      }   text-white px-3 py-1 rounded`}
+                    >
+                      -
+                    </button>
 
-                        {/* Quantity Controls */}
-                        <div className='flex items-center gap-3 mt-2'>
-                          <button
-                            disabled={item.quantity <= 1}
-                            onClick={() => handleDecreaseQty(item)}
-                            className={`${
-                              item?.quantity <= 1
-                                ? 'bg-green-200 cursor-not-allowed'
-                                : 'bg-green-500 hover:bg-green-400 cursor-pointer'
-                            }   text-white px-3 py-1 rounded`}
-                          >
-                            -
-                          </button>
+                    <span className='text-black'>{item.quantity}</span>
 
-                          <span className='text-black'>{item.quantity}</span>
-
-                          <button
-                            disabled={item?.quantity >= (item?.stock ?? 0)}
-                            onClick={() => handleIncreaseQty(item)}
-                            className={`${
-                              item?.quantity >= (item?.stock ?? 0)
-                                ? 'bg-green-200 cursor-not-allowed'
-                                : 'bg-green-500 hover:bg-green-400 cursor-pointer'
-                            }   text-white px-3 py-1 rounded`}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Delete */}
-                      <button
-                        className='cursor-pointer text-red-500 text-xl'
-                        onClick={() => {setIsRemoveItemDialogOpen(true); setItemToRemoveId(item?._id)}}
-                      >
-                        <Trash2 />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Footer */}
-                <div className='p-4 border-t'>
-                  <div className='flex justify-between text-black mb-4 font-medium'>
-                    <span>Total</span>
-                    <span>
-                      ₦
-                      {cart
-                        .reduce(
-                          (total, item) =>
-                            total + (item.price ?? 0) * item.quantity,
-                          0
-                        )
-                        .toLocaleString()}
-                    </span>
+                    <button
+                      disabled={item?.quantity >= (item?.stock ?? 0)}
+                      onClick={() => handleIncreaseQty(item)}
+                      className={`${
+                        item?.quantity >= (item?.stock ?? 0)
+                          ? 'bg-green-200 cursor-not-allowed'
+                          : 'bg-green-500 hover:bg-green-400 cursor-pointer'
+                      }   text-white px-3 py-1 rounded`}
+                    >
+                      +
+                    </button>
                   </div>
-
-                  <button className='w-full cursor-pointer bg-green-500 text-white py-3 rounded-full font-semibold'>
-                    Proceed
-                  </button>
-                  <button
-                    onClick={() => { setIsClearCartDialogOpen(true); }}
-                    className='w-full cursor-pointer mt-3 border border-red-500 text-red-500 py-3 rounded-full font-semibold'
-                  >
-                    Clear Cart
-                  </button>
                 </div>
-              </>
-            ) : (
-              <EmptyCart onClick={onClose} />
-            )}
-          </motion.div>
+
+                {/* Delete */}
+                <button
+                  className='cursor-pointer text-red-500 text-xl'
+                  onClick={() => {
+                    setIsRemoveItemDialogOpen(true)
+                    setItemToRemoveId(item?._id)
+                  }}
+                >
+                  <Trash2 />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className='pb-4 px-4 pt-1 border-t '>
+            <div className='flex justify-between text-black mb-2 font-medium'>
+              <span className='text-sm text-gray-500'>Total</span>
+              <span>
+                ₦
+                {cart
+                  .reduce(
+                    (total, item) => total + (item.price ?? 0) * item.quantity,
+                    0
+                  )
+                  .toLocaleString()}
+              </span>
+            </div>
+            <div className='grid w-full grid-cols-[1.5fr_1fr] gap-3 '>
+              <button
+                onClick={() => setView(1)}
+                className='w-full cursor-pointer bg-green-500 text-white py-1.5 rounded-full font-semibold flex items-center justify-center gap-2'
+              >
+                Proceed to Checkout <IoMdArrowRoundForward />
+              </button>
+              <button
+                onClick={() => {
+                  setIsClearCartDialogOpen(true)
+                }}
+                className='w-full cursor-pointer mt-1.5 border border-red-500 text-red-500 
+                    py-1.5 rounded-full font-semibold'
+              >
+                Clear Cart
+              </button>
+            </div>
+          </div>
         </>
+      ) : (
+        <EmptyCart onClick={onClose} />
       )}
+
       {isClearCartDialogOpen && (
         <ConfirmDialog
           promptMessage='Are you sure you want to clear the cart?'
@@ -182,23 +161,21 @@ export default function CartDrawer({ isOpen, onClose, cart }: CartDrawerProps) {
             clearCart()
             setIsClearCartDialogOpen(false)
           }}
-          onClose={() =>setIsClearCartDialogOpen(false)}
+          onClose={() => setIsClearCartDialogOpen(false)}
         />
       )}
-      {
-        isRemoveItemDialogOpen && (
-          <ConfirmDialog
-            promptMessage='Are you sure you want to remove this item from the cart?'
-            confirmText='Remove Item'
-            discardText='Cancel'
-            action={() => {
-              removeFromCart(itemToRemoveId!)
-              setIsRemoveItemDialogOpen(false)
-            }}
-            onClose={() =>setIsRemoveItemDialogOpen(false)}
-          />
-        )
-      }
-    </AnimatePresence>
+      {isRemoveItemDialogOpen && (
+        <ConfirmDialog
+          promptMessage='Are you sure you want to remove this item from the cart?'
+          confirmText='Remove Item'
+          discardText='Cancel'
+          action={() => {
+            removeFromCart(itemToRemoveId!)
+            setIsRemoveItemDialogOpen(false)
+          }}
+          onClose={() => setIsRemoveItemDialogOpen(false)}
+        />
+      )}
+    </>
   )
 }

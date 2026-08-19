@@ -4,6 +4,12 @@ import { persist } from 'zustand/middleware'
 export const useCartStore = create(
   persist(
     (set, get) => ({
+      isCartOpen: false,
+      setIsCartOpen: (value) => {
+        set({
+          isCartOpen:value
+        })
+      },
       cart: [],
       scrollToBestSellers: () => {
         const el = document.getElementById('all-products')

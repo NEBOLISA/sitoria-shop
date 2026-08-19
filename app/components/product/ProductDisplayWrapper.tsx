@@ -1,9 +1,11 @@
 // app/components/ProductsWrapper.tsx
-
+"use client"
 
 
 import { getProductsByFilter1 } from '@/app/lib/api/products'
 import ProductsDispayComponent from './ProductsDisplayComponent'
+import { useEffect, useState } from 'react'
+import { useUIStore } from '@/app/store/useUIStore'
 
 interface Props {
   searchTerm?: string | null
@@ -17,7 +19,7 @@ interface Props {
   filters: string[]
 }
 
-export default async function ProductsWrapper({
+export default  function ProductsWrapper({
   searchTerm,
   category,
   sizes,
@@ -28,18 +30,36 @@ export default async function ProductsWrapper({
   text,
   filters
 }: Props) {
-  // simulate loading
-  //await new Promise((resolve) => setTimeout(resolve, 8000))
-
-  const filteredProducts = await getProductsByFilter1({
-    searchTerm,
-    categoryTerm: category,
-    sizes,
-    brands,
-    minPrice,
-    maxPrice
-  })
-
+// simulate loading
+//await new Promise((resolve) => setTimeout(resolve, 8000))
+const [filteredProducts, setFilteredProducts] = useState([])
+  
+    const setIsCategoryLoading = useUIStore(
+      (state) => state.setIsCategoryLoading
+    )
+    useEffect(() => {
+        const fetchProducts = async () => {
+            
+       try {
+        
+           const products = await getProductsByFilter1({
+             searchTerm,
+             categoryTerm: category,
+             sizes,
+             brands,
+             minPrice,
+             maxPrice
+           })
+           setFilteredProducts(products)
+       } catch (error) {
+        console.error(error)
+       } finally {
+           setIsCategoryLoading(null)
+       }
+  }
+  fetchProducts()
+}, [searchTerm, category, sizes, brands, minPrice, maxPrice,setIsCategoryLoading])
+    
   return (
     <ProductsDispayComponent
       filters={filters}

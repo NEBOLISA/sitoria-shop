@@ -94,7 +94,7 @@ export default async function Home({
     <div className='relative'>
       <HeroSection isSearchPage={!isMainPage} />
        <Suspense
-          key={JSON.stringify(searchParams)}
+         // key={JSON.stringify(searchParams)}
           fallback={<ProductSkeleton />}
       >
         
@@ -121,7 +121,7 @@ export default async function Home({
 
       {(isSearchPage || isCategoryPage || isFilterPage) && (
         <Suspense
-          key={JSON.stringify(searchParams)}
+        //  key={JSON.stringify(searchParams)}
           fallback={<ProductSkeleton />}
         >
           <ProductsWrapper

@@ -5,36 +5,54 @@ import Image from 'next/image'
 import ProductTag from './ProductTag'
 
 
-const ProductCard = ({ product, onclick }: { product: Product; onclick: () => void }) => {
- 
-   const stockStatus = getStockStatus(product.stock || 0);
- 
+const ProductCard = ({
+  product,
+  onclick,
+  loadingDetails
+}: {
+  product: Product
+  onclick: () => void
+  loadingDetails:string | null
+}) => {
+  const stockStatus = getStockStatus(product.stock || 0)
+
   return (
-    <div className=" md:h-70 h-60   md:px-0 cursor-pointer  bg-white md:mx-0    shadow-lg rounded-lg overflow-hidden group w-full border border-gray-300  relative flex flex-col items-center justify-center group " onClick={onclick}>
-          {/* Best Seller Tag */}
-          
+    <div
+      className=' md:h-70 h-60    md:px-0 cursor-pointer  bg-white md:mx-0    shadow-lg rounded-lg overflow-hidden group w-full border border-gray-300  relative flex flex-col items-center justify-center group '
+      onClick={onclick}
+    >
+      {/* Best Seller Tag */}
+
       {/* Product Image */}
-          <div className='flex-[0.8] w-full relative bg-gray-300/40'>
-           <ProductTag stockStatus={stockStatus!} product={product} />
+        {loadingDetails === product?._id && (
+          <div className='absolute inset-0 z-50 flex items-center justify-center bg-black/40'>
+            <div className='h-10 w-10 animate-spin rounded-full border-4 border-white border-t-transparent' />
+          </div>
+        )}
+      <div className='flex-[0.8] w-full relative bg-gray-300/40'>
+        <ProductTag stockStatus={stockStatus!} product={product} />
 
         <Image
           src={urlFor(product.mainImage?.asset?._ref || '').url()}
-                  alt="Stylish Earbud"
-              fill
-             sizes="(max-width: 768px) 100vw, 200px"
-          className="group-hover:scale-105 transition duration-300   object-contain"
+          alt='Stylish Earbud'
+          fill
+          sizes='(max-width: 768px) 100vw, 200px'
+          className='group-hover:scale-105 transition duration-300   object-contain'
         />
-          </div>
-    
+      </div>
 
       {/* Product Info */}
-      <div className="p-4 flex-[0.2] w-full">
-        <h2 className="font-medium text-sm truncate">{product.name}</h2>
-      
+      <div className='p-4 flex-[0.2] w-full'>
+        <h2 className='font-medium text-sm truncate'>{product.name}</h2>
 
         {/* Price */}
-        <div className="mt-1">
-          <span className="font-bold text-base">{product.price?.toLocaleString('en-NG', { style: 'currency', currency: 'NGN' })}</span>
+        <div className='mt-1'>
+          <span className='font-bold text-base'>
+            {product.price?.toLocaleString('en-NG', {
+              style: 'currency',
+              currency: 'NGN'
+            })}
+          </span>
         </div>
 
         {/* Button */}
