@@ -132,9 +132,15 @@ export default function CartDrawer({ onClose, cart,setView }: CartDrawerProps) {
             <div className='grid w-full grid-cols-[1.5fr_1fr] gap-3 '>
               <button
                 onClick={() => setView(1)}
-                className='w-full cursor-pointer bg-green-500 text-white py-1.5 rounded-full font-semibold flex items-center justify-center gap-2'
+                className='w-full hidden sm:flex cursor-pointer bg-green-500 text-white py-1.5 rounded-full font-semibold  items-center justify-center gap-2'
               >
                 Proceed to Checkout <IoMdArrowRoundForward />
+              </button>
+              <button
+                onClick={() => setView(1)}
+                className='w-full sm:hidden cursor-pointer bg-green-500 text-white py-1.5 rounded-full font-semibold flex items-center justify-center gap-2'
+              >
+                Checkout <IoMdArrowRoundForward />
               </button>
               <button
                 onClick={() => {
