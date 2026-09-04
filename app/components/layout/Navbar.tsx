@@ -58,7 +58,7 @@ const Navbar = () => {
 
     return (
       <nav
-        className={`transition-colors  duration-300 ease-in-out fixed z-40 top-0  w-full max-w-300 mx-auto  px-4 flex items-center justify-between py-4 bg-black ${
+        className={`transition-colors  duration-300 ease-in-out fixed z-40 top-0  w-full  mx-auto  px-4 flex items-center justify-between py-4 bg-black ${
           scrolled ? 'bg-black text-white ' : 'bg-transparent  text-white'
         }`}
       >

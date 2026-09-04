@@ -6,6 +6,7 @@ import { MdOutlineEmail } from 'react-icons/md'
 
 const outfit = Outfit({ subsets: ['latin'], weight: '600' })
 const Footer = () => {
+ 
   return (
     <footer className='bg-black text-white py-5 px-8 mt-12'>
       <div className='grid md:grid-cols-[2fr_1.3fr] grid-cols-1 gap-8'>
