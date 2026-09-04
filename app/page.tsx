@@ -38,7 +38,7 @@ export default async function Home({
 
   const all = await searchParams
   
- 
+
   const searchTerm = params?.search ?? null
   
   const page = Number(params?.page) || 1

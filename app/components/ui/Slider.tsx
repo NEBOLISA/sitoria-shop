@@ -26,11 +26,11 @@ const Slider = () => {
     <div
       className={`rounded-2xl  max-w-4xl w-[90%] md:h-62.5 sm:h-50 h-37.5 overflow-hidden  transition-all duration-700 ease-in-out relative shadow-md border border-gray-200 mt-20 mb-20  mx-auto  `}
     >
-
       {/* next and previous slide buttons */}
       <div className=' z-30 flex items-center justify-center gap-4   absolute bottom-4 left-1/2 transform -translate-x-1/2'>
         <button
           onClick={() => prevSlide()}
+          aria-label='Go to first slide'
           className={`    rounded-full  transition-all duration-300 ease-in-out w-3 h-3 ${
             currentSlide === 1
               ? 'bg-white scale-125 '
@@ -39,6 +39,7 @@ const Slider = () => {
         ></button>
         <button
           onClick={() => nextSlide()}
+          aria-label='Go to next slide'
           className={` ${
             currentSlide === 2
               ? 'bg-white scale-125 '
@@ -46,7 +47,6 @@ const Slider = () => {
           }   rounded-full  transition-all duration-300 ease-in-out w-3 h-3`}
         ></button>
       </div>
-
 
       {/* First slide */}
       <div
@@ -97,8 +97,7 @@ const Slider = () => {
           />
         </div>
       </div>
-     
-      
+
       {/* Second slide */}
       <div
         className={`absolute bg-[url('/slider2.png')]  inset-0 transition-transform duration-1000 ease-in-out ${
@@ -106,7 +105,6 @@ const Slider = () => {
         }`}
       >
         <div className='flex flex-col'>
-
           {/* Second slide texts */}
           <div className='absolute inset-0'>
             <h1
@@ -135,7 +133,10 @@ const Slider = () => {
               Experience rich notes, refined blends, and a signature aura that
               speaks before you do.
             </h3>
-            <button onClick={()=>scrollToBestSellers()} className='sm:mt-6 mt-3 mx-2 sm:mx-8 sm:px-6 sm:py-1 px-2  cursor-pointer sm:text-sm text-xs font-medium rounded-full sm:border-2 border border-white text-white hover:bg-white hover:text-black transition-colors duration-300'>
+            <button
+              onClick={() => scrollToBestSellers()}
+              className='sm:mt-6 mt-3 mx-2 sm:mx-8 sm:px-6 sm:py-1 px-2  cursor-pointer sm:text-sm text-xs font-medium rounded-full sm:border-2 border border-white text-white hover:bg-white hover:text-black transition-colors duration-300'
+            >
               Shop Now
             </button>
           </div>
@@ -151,7 +152,6 @@ const Slider = () => {
               ' w-25 sm:w-35 md:w-40  lg:w-45  object-contain bottom-0 absolute right-2 mx-auto   translate-0 left-auto rounded-2xl'
             }
           />
-          
         </div>
       </div>
     </div>

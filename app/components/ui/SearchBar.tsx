@@ -41,7 +41,7 @@ const searchParams = useSearchParams()
 
         {/* Search Button */}
         <div className='absolute right-2 top-1/2 -translate-y-1/2'>
-          <button className='bg-green-500 hover:bg-green-600 text-white p-2 rounded-full flex items-center justify-center'>
+          <button aria-label='search' className='bg-green-500 hover:bg-green-600 text-white p-2 rounded-full flex items-center justify-center'>
             <Search size={18} />
           </button>
         </div>
