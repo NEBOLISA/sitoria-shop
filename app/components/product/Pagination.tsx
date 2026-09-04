@@ -62,7 +62,7 @@ const Pagination = ({ pageNumbers }: PaginationProps) => {
     <div>
          
           <div className='flex items-center justify-center gap-4 mt-8 mb-8'>
-              <button className={`${currentPage === firstPage ? "hover:bg-white ":"hover:bg-gray-100"} bg-white hover:bg-gray-100 cursor-pointer px-2 py-1  rounded-md transition-colors border border-gray-300 duration-200`} onClick={prevPage} disabled={currentPage === firstPage}>
+              <button aria-label="Go to previous page" className={`${currentPage === firstPage ? "hover:bg-white ":"hover:bg-gray-100"} bg-white hover:bg-gray-100 cursor-pointer px-2 py-1  rounded-md transition-colors border border-gray-300 duration-200`} onClick={prevPage} disabled={currentPage === firstPage}>
                   <ChevronLeft  className={  `${currentPage === firstPage ? 'text-gray-400 ' : 'text-black'} w-5 h-6 `}  />
               </button>
               {paginationRange?.map((number) => 
@@ -86,7 +86,7 @@ const Pagination = ({ pageNumbers }: PaginationProps) => {
                 </Link>)}
                   }
             )}
-               <button onClick={nextPage} className={`${currentPage === lastPage ? "hover:bg-white ":"hover:bg-gray-100"} bg-white hover:bg-gray-100 cursor-pointer px-2 py-1  rounded-md transition-colors border border-gray-300 duration-200`}> <ChevronRight  className={  `${currentPage === lastPage ? 'text-gray-400' : 'text-black'} w-5 h-6 `}  /></button>
+               <button aria-label="Go to next page" onClick={nextPage} className={`${currentPage === lastPage ? "hover:bg-white ":"hover:bg-gray-100"} bg-white hover:bg-gray-100 cursor-pointer px-2 py-1  rounded-md transition-colors border border-gray-300 duration-200`}> <ChevronRight  className={  `${currentPage === lastPage ? 'text-gray-400' : 'text-black'} w-5 h-6 `}  /></button>
         </div>
 
           

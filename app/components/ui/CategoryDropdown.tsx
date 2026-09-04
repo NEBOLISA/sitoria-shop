@@ -18,12 +18,15 @@ export default function CategoryDropdown({ categories, onSelect }: {
     return (
       <div className='md:hidden block shad-select'>
         <Select
+          aria-label='Select a category'
           onValueChange={(value) => {
             onSelect(value)
           }}
         >
-          <SelectTrigger className='w-27 rounded-2xl'>
-           
+          <SelectTrigger
+            className='w-27 rounded-2xl'
+            aria-label='Select a category'
+          >
             <span className='text-white overflow-hidden inline '>Category</span>
           </SelectTrigger>
 

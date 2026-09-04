@@ -45,7 +45,7 @@ export const ConfirmDialog = ({
           This action cannot be undone
         </p> */}
 
-        <div className='flex justify-center gap-3 mt-8'>
+        <div className='flex font-light justify-center gap-3 mt-8'>
           <button
             className='px-4 cursor-pointer hover:bg-red-400 hover:scale-105 transition-all duration-500 ease-in-out py-2 bg-red-500 text-white rounded-lg'
             onClick={() => {

@@ -57,11 +57,14 @@ export default function CartDrawer({ onClose, cart,setView }: CartDrawerProps) {
               <div key={item._id + index} className='flex gap-4'>
                 {/* Image */}
                 <Image
-                  width={20}
-                  height={20}
-                  src={urlFor(item.mainImage?.asset?._ref || '').url()}
+                  width={80}
+                  height={80}
+                  src={urlFor(item.mainImage?.asset?._ref || '')
+                    .width(320)
+                    .quality(90)
+                    .url()}
                   alt={item.name || 'Product Image'}
-                  className='w-20 h-20 object-cover rounded-md'
+                  className='w-20 h-20 object-contain rounded-md'
                 />
 
                 {/* Details */}
@@ -132,7 +135,7 @@ export default function CartDrawer({ onClose, cart,setView }: CartDrawerProps) {
             <div className='grid w-full grid-cols-[1.5fr_1fr] gap-3 '>
               <button
                 onClick={() => setView(1)}
-                className='w-full hidden sm:flex cursor-pointer bg-green-500 text-white py-1.5 rounded-full font-semibold  items-center justify-center gap-2'
+                className='w-full hidden sm:flex cursor-pointer bg-green-500 text-white py-1.5 rounded-full font-light  items-center justify-center gap-2'
               >
                 Proceed to Checkout <IoMdArrowRoundForward />
               </button>
@@ -147,7 +150,7 @@ export default function CartDrawer({ onClose, cart,setView }: CartDrawerProps) {
                   setIsClearCartDialogOpen(true)
                 }}
                 className='w-full cursor-pointer mt-1.5 border border-red-500 text-red-500 
-                    py-1.5 rounded-full font-semibold'
+                    py-1.5 rounded-full font-light'
               >
                 Clear Cart
               </button>
